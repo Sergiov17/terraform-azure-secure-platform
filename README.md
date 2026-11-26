@@ -1,10 +1,10 @@
 # Azure Secure Platform Baseline
 
-A portfolio lab for a small Azure network foundation managed with Terraform. The baseline creates an isolated virtual network, private subnets, and an inbound-deny network security group.
+A portfolio lab for a small Azure network foundation managed with Terraform. The baseline composes a reusable network module for an isolated virtual network, private subnets, and an inbound-deny network security group.
 
 ## What this demonstrates
 
-- Terraform provider constraints and environment-based authentication
+- A reusable Terraform module with typed inputs and outputs
 - Resource group and virtual network lifecycle
 - Subnet map inputs for repeatable environment layouts
 - Explicit inbound deny rule and subnet-to-NSG association
@@ -20,6 +20,14 @@ flowchart LR
   NSG["NSG · deny inbound"] --> A
   NSG --> B
 ```
+
+## Repository layout
+
+- `versions.tf`, `providers.tf`: Terraform and Azure provider constraints
+- `variables.tf`: region, naming, CIDRs, environment, and subnet inputs
+- `modules/network`: reusable resource group, VNet, subnets, and NSG
+- `network.tf`, `outputs.tf`: root module composition and public outputs
+- `.github/workflows/terraform.yml`: format and validate on pull requests
 
 ## Prerequisites
 
@@ -44,7 +52,7 @@ The repository never runs `terraform apply`. A plan may query Azure and requires
 - The NSG denies inbound traffic; add narrowly scoped rules only with an explicit use case.
 - No public IPs or internet-facing workloads are defined.
 - Local state is for learning only. Production state belongs in an encrypted, access-controlled remote backend.
-- Never commit `terraform.tfvars`, state, credentials, or private keys.
+- Never commit `terraform.tfvars`, state, credentials, or private keys. `.terraform.lock.hcl` is intentionally not ignored and should be committed after initialization.
 
 ## Next steps
 
