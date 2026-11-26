@@ -1,0 +1,9 @@
+project_name  = "secure-platform"
+environment   = "dev"
+location      = "eastus"
+address_space = ["10.50.0.0/16"]
+
+subnet_prefixes = {
+  private_a = "10.50.1.0/24"
+  private_b = "10.50.2.0/24"
+}
